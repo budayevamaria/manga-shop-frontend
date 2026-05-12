@@ -56,10 +56,10 @@ export default function Profile() {
       <div className="profile-info">
         <h1>Профиль</h1>
         <p>
-          <b>Имя: </b> {user.name}
+          <b>Имя:</b>&nbsp;{user.name}
         </p>
         <p>
-          <b>Email: </b> {user.email}
+          <b>Email: </b>&nbsp;{user.email}
         </p>
       </div>
 
