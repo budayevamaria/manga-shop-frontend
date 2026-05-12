@@ -40,7 +40,7 @@ export default function Order() {
 
   return (
     <div className="order-page">
-      <h1>Оформление заказа</h1>
+      <h1>Заказ</h1>
 
       {!ordered && (
         <>

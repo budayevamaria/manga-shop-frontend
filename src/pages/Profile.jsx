@@ -14,28 +14,31 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchOrders = async () => {
+      if (!user) {
+        setOrders([]);
+        return;
+      }
+
       try {
         setLoading(true);
-        const token = localStorage.getItem("token");
-
-        if (!token) return;
 
         const res = await axios.get("https://manga-shop-backend.onrender.com/orders", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
 
         setOrders(res.data);
       } catch (error) {
         console.log("Orders error:", error);
+        setOrders([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchOrders();
-  }, []);
+  }, [user]);
 
   if (authLoading) {
     return <Loader />;

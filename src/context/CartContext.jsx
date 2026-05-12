@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
@@ -9,6 +10,7 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const { user } = useAuth();
   const token = localStorage.getItem("token");
 
   const fetchCart = async () => {
@@ -79,13 +81,15 @@ export const CartProvider = ({ children }) => {
       console.log(err.message);
     }
   };
+
   useEffect(() => {
-    if (token) {
-      fetchCart();
-    } else {
+    if (!user) {
       setCart([]);
+      return;
     }
-  }, [token]);
+
+    fetchCart();
+  }, [user]);
 
   return (
     <CartContext.Provider

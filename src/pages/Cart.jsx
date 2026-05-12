@@ -11,7 +11,7 @@ export default function Cart() {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const { cart, clearCart, updateQuantity, removeFromCart, loading } = useCart();
-  const token = localStorage.getItem("token");
+  const getToken = () => localStorage.getItem("token");
 
   const handleOrder = async () => {
     try {
@@ -20,14 +20,21 @@ export default function Cart() {
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getToken()}`,
           },
         }
       );
 
+      const orderId = res.data._id || res.data.order?._id;
+
+      if (!orderId) {
+        console.log("Invalid order response:", res.data);
+        alert("Ошибка: не удалось получить заказ");
+        return;
+      }
       await clearCart();
 
-      const orderId = res.data._id;
+      alert("Заказ оформен!");
       navigate(`/orders/${orderId}`);
     } catch (err) {
       console.log(err.response?.data || err.message);
@@ -39,12 +46,9 @@ export default function Cart() {
     setModalOpen(true);
   };
 
-  const confirmPurchase = () => {
-    handleOrder();
-
+  const confirmPurchase = async () => {
+    await handleOrder();
     setModalOpen(false);
-
-    alert("Заказ оформен!");
   };
 
   const total = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
