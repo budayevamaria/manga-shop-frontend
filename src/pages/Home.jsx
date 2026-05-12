@@ -70,11 +70,6 @@ export default function Home() {
     <div className="container">
       <Hero />
 
-      <div className="promo-banner">
-        <h2>Скидки на популярную мангу</h2>
-        <p>Собери свою коллекцию любимых тайтлов уже сегодня</p>
-      </div>
-
       <h2 className="home__heading">Популярная манга</h2>
 
       <div className="manga-grid">
@@ -85,30 +80,6 @@ export default function Home() {
 
       <div className="catalog-button">
         <Link to="/catalog">Смотреть весь каталог →</Link>
-      </div>
-
-      <div className="reviews-section">
-        <h2 className="review__title">Отзывы наших читателей</h2>
-
-        <div className="reviews-grid">
-          <div className="review-card">
-            <h3>⭐️⭐️⭐️⭐️⭐️</h3>
-            <p>Очень удобный сайт и классная подборка манги. Теперь читаю только здесь!</p>
-            <span>— Алина</span>
-          </div>
-
-          <div className="review-card">
-            <h3>⭐️⭐️⭐️⭐️</h3>
-            <p>Тёмная тема и красивый дизайн — просто топ.</p>
-            <span>— Дамир</span>
-          </div>
-
-          <div className="review-card">
-            <h3>⭐️⭐️⭐️⭐️⭐️</h3>
-            <p>Нашёл здесь свою любимую мангу буквально за минуту.</p>
-            <span>— Артём</span>
-          </div>
-        </div>
       </div>
 
       <div className="delivery-section">

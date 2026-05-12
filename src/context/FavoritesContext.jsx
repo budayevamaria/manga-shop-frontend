@@ -22,7 +22,10 @@ export const FavoritesProvider = ({ children }) => {
   const addToFavorites = item => {
     setFavorites(prev => {
       const exists = prev.find(i => i.id === item.id);
-      if (exists) return prev;
+      if (exists) {
+        console.log(prev);
+        return prev;
+      }
       return [...prev, item];
     });
   };

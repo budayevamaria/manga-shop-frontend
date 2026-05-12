@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useFavorites } from "../context/FavoritesContext";
 import Loader from "../components/Loader";
@@ -11,6 +12,7 @@ export default function Profile() {
   const { favorites, removeFromFavorites, clearFavorites } = useFavorites();
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -76,9 +78,14 @@ export default function Profile() {
                   <div className="favorite-price">{item.price}$</div>
                 </div>
 
-                <button onClick={() => removeFromFavorites(item.id)} className="remove-btn">
-                  Удалить
-                </button>
+                <div className="fav-btn-container">
+                  <button onClick={() => navigate(`/manga/${item.id}`)} className="favorite-btn">
+                    Посмотреть
+                  </button>
+                  <button onClick={() => removeFromFavorites(item.id)} className="remove-btn">
+                    Удалить
+                  </button>
+                </div>
               </div>
             ))}
 

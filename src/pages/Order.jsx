@@ -48,7 +48,7 @@ export default function Order() {
             <p>
               <strong>Номер заказа: </strong>#{order._id}
             </p>
-            {console.log(order._id)}
+
             <p>
               <strong>Дата: </strong>
 
@@ -71,7 +71,6 @@ export default function Order() {
                   <p>
                     {item.product.price} $ × {item.quantity}
                   </p>
-                  {console.log(item.quantity)}
                 </div>
               </div>
             ))}

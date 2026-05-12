@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
 import Modal from "../components/Modal";
+import Loader from "../components/Loader";
 
 import "../assets/css/manga.css";
 
@@ -65,7 +66,7 @@ export default function MangaPage() {
   };
 
   if (loading) {
-    return <div className="container">Загрузка...</div>;
+    return <Loader />;
   }
 
   if (!manga) {
@@ -84,31 +85,26 @@ export default function MangaPage() {
 
           <p>
             <strong>Автор: </strong>
-
             {manga.authors?.join(", ")}
           </p>
 
           <p>
             <strong>Главы: </strong>
-
             {manga.chapters || "?"}
           </p>
 
           <p>
             <strong>Томов: </strong>
-
             {manga.volumes || "?"}
           </p>
 
           <p>
             <strong>Статус: </strong>
-
             {manga.status || "Неизвестно"}
           </p>
 
           <p>
             <strong>Цена: </strong>
-
             <span className="manga-price">{manga.price} $</span>
           </p>
           <div className="btn-container">
