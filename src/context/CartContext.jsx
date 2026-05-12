@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const CartContext = createContext();
 
@@ -20,7 +20,7 @@ export const CartProvider = ({ children }) => {
         },
       });
       setCart(res.data.items);
-      console.log(cart);
+      // console.log(cart);
     } catch (err) {
       console.log(err.message);
     } finally {

@@ -57,7 +57,7 @@ export default function Navbar() {
               <Link to="/cart" className="cart-link" onClick={closeMenu}>
                 Корзина
                 <span className="cart-count">
-                  {cart.reduce((sum, item) => sum + item.quantity, 0)}
+                  {(cart || []).reduce((sum, item) => sum + item.quantity, 0)}
                 </span>
               </Link>
               <Link to="/profile" onClick={closeMenu}>
@@ -82,7 +82,7 @@ export default function Navbar() {
           )}
 
           <button className="theme-toggle" onClick={toggleDarkMode} aria-label="Сменить тему">
-            <img src={darkMode ? sunIcon : moonIcon} alt="" width="24" height="24" />
+            <img src={darkMode ? sunIcon : moonIcon} alt="theme icon" width="24" height="24" />
           </button>
         </div>
       </div>

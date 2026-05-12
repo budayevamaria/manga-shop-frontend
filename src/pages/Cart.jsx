@@ -53,16 +53,13 @@ export default function Cart() {
     return (
       <div className="cart-page">
         <h1>Корзина</h1>
-        <p>Корзина пуста</p>
+        <p className="cart-empty">Корзина пуста</p>
       </div>
     );
   }
 
   return (
     <>
-      {/* {loading ? (
-        <Loader />
-      ) : ( */}{" "}
       {loading && <Loader />}
       <div className="cart-page">
         <h1>Корзина</h1>
@@ -135,13 +132,12 @@ export default function Cart() {
           <Modal
             isOpen={modalOpen}
             title="Подтверждение покупки"
-            message={`Вы хотите оформить заказ на ${total}$?`}
+            message={`Вы хотите оформить заказ на ${total?.toFixed(2)}$?`}
             onConfirm={confirmPurchase}
             onCancel={() => setModalOpen(false)}
           />
         </div>
       </div>
-      {/* )} */}
     </>
   );
 }

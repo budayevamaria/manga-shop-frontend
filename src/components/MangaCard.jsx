@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-
 import "../assets/css/manga.css";
 
 export default function MangaCard({ manga }) {

@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
-
 import { useParams } from "react-router-dom";
-
 import { fetchMangaById } from "../services/mangaApi";
-
 import { useAuth } from "../context/AuthContext";
-
 import { useCart } from "../context/CartContext";
-
 import { useFavorites } from "../context/FavoritesContext";
-
 import Modal from "../components/Modal";
 
 import "../assets/css/manga.css";
@@ -44,6 +38,22 @@ export default function MangaPage() {
     }
 
     setModalOpen(true);
+  };
+
+  const handleFavorites = () => {
+    if (!user) {
+      alert("Войдите, чтобы добавить мангу в избранное");
+
+      return;
+    }
+
+    addToFavorites({
+      id: manga._id,
+      title: manga.title,
+      price: manga.price,
+      image: manga.image,
+    });
+    alert("Добавлено в избранное");
   };
 
   const confirmPurchase = () => {
@@ -105,18 +115,7 @@ export default function MangaPage() {
             <button onClick={handleBuy} className="buy-btn">
               Добавить в корзину
             </button>
-            <button
-              onClick={() => {
-                addToFavorites({
-                  id: manga._id,
-                  title: manga.title,
-                  price: manga.price,
-                  image: manga.image,
-                });
-                alert("Добавлено в избранное");
-              }}
-              className="fav-btn"
-            >
+            <button onClick={handleFavorites} className="fav-btn">
               В избранное
             </button>
           </div>
@@ -126,7 +125,7 @@ export default function MangaPage() {
       <Modal
         isOpen={modalOpen}
         title="Подтверждение"
-        message={`Вы хотите купить "${manga.title}" за ${manga.price} $?`}
+        message={`Вы хотите добавить в корзину "${manga.title}" за ${manga.price}$?`}
         onConfirm={confirmPurchase}
         onCancel={() => setModalOpen(false)}
       />

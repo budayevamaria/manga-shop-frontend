@@ -1,25 +1,25 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchManga } from "../services/mangaApi";
 
-import Hero from '../components/Hero';
-import MangaCard from '../components/MangaCard';
+import Hero from "../components/Hero";
+import MangaCard from "../components/MangaCard";
+import Loader from "../components/Loader";
 
-import { fetchManga } from '../services/mangaApi';
-
-import '../assets/css/manga.css';
+import "../assets/css/manga.css";
 
 export default function Home() {
   const [mangaList, setMangaList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: ''
+    name: "",
+    email: "",
+    phone: "",
   });
 
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchManga().then(data => {
@@ -28,43 +28,43 @@ export default function Home() {
     });
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     if (!form.name || !form.email || !form.phone) {
-      setError('Заполните все поля');
-      setMessage('');
+      setError("Заполните все поля");
+      setMessage("");
       return;
     }
 
-    if (!form.email.includes('@')) {
-      setError('Введите корректный email');
-      setMessage('');
+    if (!form.email.includes("@")) {
+      setError("Введите корректный email");
+      setMessage("");
       return;
     }
 
-    setError('');
-    setMessage(' Заявка отправлена! Мы свяжемся с вами');
+    setError("");
+    setMessage(" Заявка отправлена! Мы свяжемся с вами");
 
     setForm({
-      name: '',
-      email: '',
-      phone: ''
+      name: "",
+      email: "",
+      phone: "",
     });
 
     setTimeout(() => {
-      setMessage('');
+      setMessage("");
     }, 3000);
   };
 
-  if (loading) return <div className="container">Загрузка...</div>;
+  if (loading) return <Loader />;
 
   return (
     <div className="container">
@@ -88,7 +88,7 @@ export default function Home() {
       </div>
 
       <div className="reviews-section">
-        <h2 className='review__title'>Отзывы наших читателей</h2>
+        <h2 className="review__title">Отзывы наших читателей</h2>
 
         <div className="reviews-grid">
           <div className="review-card">
@@ -161,7 +161,9 @@ export default function Home() {
             onChange={handleChange}
           />
 
-          <button type="submit" className='contact-button'>Отправить</button>
+          <button type="submit" className="contact-button">
+            Отправить
+          </button>
 
           {error && <p className="error-msg">{error}</p>}
           {message && <p className="success-msg">{message}</p>}

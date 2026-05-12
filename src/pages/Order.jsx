@@ -1,23 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useCart } from "../context/CartContext";
-import { createOrder } from "../services/orderApi.js";
+import { useParams, useNavigate } from "react-router-dom";
 import "../assets/css/order.css";
 
 export default function Order() {
-  const { cart, clearCart } = useCart();
   const [order, setOrder] = useState({});
 
   const [ordered, setOrdered] = useState(false);
 
-  const total = cart.reduce((sum, item) => sum + (item.price || 0), 0);
-
-  const orderNumber = useState(() => Math.floor(100000 + Math.random() * 900000))[0];
-
   const currentDate = new Date().toLocaleDateString();
 
   const token = localStorage.getItem("token");
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -47,7 +42,7 @@ export default function Order() {
     <div className="order-page">
       <h1>Оформление заказа</h1>
 
-      {!ordered ? (
+      {!ordered && (
         <>
           <div className="order-info">
             <p>
@@ -63,11 +58,6 @@ export default function Order() {
               <strong>Статус: </strong>
               {order.status}
             </p>
-            {/* <p>
-              <strong>Покупатель: </strong>
-
-               {order.user.name} 
-            </p> */}
           </div>
 
           <div className="order-page-list">
@@ -88,21 +78,13 @@ export default function Order() {
           </div>
 
           <div className="order-summary">
-            <h2>Итого: {order.totalPrice} $</h2>
+            <h2>Итого: {order.totalPrice?.toFixed(2)} $</h2>
 
-            <button className="order__buy-btn" disabled={cart.length === 0}>
-              Оформить заказ
+            <button className="order__buy-btn" onClick={() => navigate("/")}>
+              На главную
             </button>
           </div>
         </>
-      ) : (
-        <div className="success-box">
-          <h2>Заказ успешно оформлен!</h2>
-
-          <p>Номер заказа: #{orderNumber}</p>
-
-          <p>Мы отправили подтверждение на почту</p>
-        </div>
       )}
     </div>
   );

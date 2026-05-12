@@ -49,7 +49,7 @@
 
 .order__buy-btn {
   background: var(--accent);
-  color: var(--text);
+  color: var(--cta-text);
   border: none;
   padding: 12px 25px;
   border-radius: 10px;

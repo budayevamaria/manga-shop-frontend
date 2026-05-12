@@ -1,12 +1,12 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Navigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
-import axios from "axios";
+import Loader from "../components/Loader";
 import "../assets/css/profile.css";
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
 
   const { favorites, removeFromFavorites, clearFavorites } = useFavorites();
   const [loading, setLoading] = useState(false);
@@ -37,6 +37,10 @@ export default function Profile() {
     fetchOrders();
   }, []);
 
+  if (authLoading) {
+    return <Loader />;
+  }
+
   // если не авторизован
   if (!user) {
     return <p>Загрузка...</p>;
@@ -47,10 +51,10 @@ export default function Profile() {
       <div className="profile-info">
         <h1>Профиль</h1>
         <p>
-          <b>Имя:</b> {user.name}
+          <b>Имя: </b> {user.name}
         </p>
         <p>
-          <b>Email:</b> {user.email}
+          <b>Email: </b> {user.email}
         </p>
       </div>
 
@@ -86,7 +90,7 @@ export default function Profile() {
         <h2>История заказов</h2>
 
         {loading ? (
-          <p>Загрузка...</p>
+          <p className="order-loading">Загрузка...</p>
         ) : orders.length === 0 ? (
           <p className="prof-favorites_title">Заказов пока нет</p>
         ) : (
@@ -103,7 +107,7 @@ export default function Profile() {
                 </div>
               ))}
 
-              <strong>Итого: {order.totalPrice.toFixed(2)}$</strong>
+              <strong>Итого: {order.totalPrice?.toFixed(2)}$</strong>
             </div>
           ))
         )}

@@ -1,26 +1,28 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useAuth } from "./AuthContext";
 
 const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const { user } = useAuth();
 
-  const storageKey = token ? `favorites_${token}` : "favorites_guest";
+  const storageKey = user ? `favorites_${user._id}` : "favorites_guest";
 
-  const [favorites, setFavorites] = useState(() => {
-    const saved = localStorage.getItem(storageKey);
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    if (!token) return;
+    const saved = localStorage.getItem(storageKey);
+    setFavorites(saved ? JSON.parse(saved) : []);
+  }, [storageKey]);
 
+  useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(favorites));
-  }, [favorites, storageKey, token]);
+  }, [favorites, storageKey]);
 
   const addToFavorites = item => {
     setFavorites(prev => {
-      if (prev.find(i => i.id === item.id)) return prev;
+      const exists = prev.find(i => i.id === item.id);
+      if (exists) return prev;
       return [...prev, item];
     });
   };
@@ -31,17 +33,8 @@ export const FavoritesProvider = ({ children }) => {
 
   const clearFavorites = () => {
     setFavorites([]);
-
-    if (token) {
-      localStorage.removeItem(storageKey);
-    }
+    localStorage.removeItem(storageKey);
   };
-
-  useEffect(() => {
-    if (!token) {
-      setFavorites([]);
-    }
-  }, [token]);
 
   return (
     <FavoritesContext.Provider
